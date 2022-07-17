@@ -7,15 +7,26 @@ description: |
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
+apps:
+  connect4:
+    command: bin/connect4
+    environment:
+      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
+
 parts:
   connect4:
     # See 'snapcraft plugins'
     plugin: python
     python-version: python3
-    source: https://github.com/constructm/connect4
+    source: .
+    override-build: |
+      snapcraftctl build
+        mkdir -p $SNAPCRAFT_PART_INSTALL/bin
+        cp connect4.py $SNAPCRAFT_PART_INSTALL/bin/connect4
     stage-packages:
-      - python-six
-    
-apps:
-  connect4:
-    command: bin/connect4
+      - python3-appdirs
+    python-packages:
+      - pip==20.0.2
+      - termcolor
+    build-environment:
+      - PYTHONPATH: $SNAPCRAFT_PART_INSTALL/usr/lib/python3/dist-packages:$PYTHONPATH
