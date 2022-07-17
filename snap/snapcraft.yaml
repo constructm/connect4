@@ -12,7 +12,7 @@ parts:
     # See 'snapcraft plugins'
     plugin: python
     python-version: python3
-    source: .
+    source: https://github.com/constructm/connect4
     stage-packages:
       - python-six
     
